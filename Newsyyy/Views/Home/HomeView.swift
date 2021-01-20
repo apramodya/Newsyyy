@@ -12,36 +12,42 @@ struct HomeView: View {
     
     var body: some View {
         NavigationView {
-            List {
-                if viewModel.allArticlesEmpty {
-                    Text("No news to show. Please try again!")
-                        .fontWeight(.medium)
-                    
-                    if !viewModel.sourcesAreEmpty {
-                        SourcesCollection(sources: viewModel.sources)
-                    }
-                } else {
-                    if viewModel.articlesFeaturedByCountry.count > 0 {
-                        NewsRow(headerName: "Featured in USA",
-                                articles: viewModel.articlesFeaturedByCountry)
-                    }
-                    
-                    if !viewModel.sourcesAreEmpty {
-                        SourcesCollection(sources: viewModel.sources)
-                    }
-                    
-                    if viewModel.articlesFeaturedBySource.count > 0 {
-                        NewsRow(headerName: "Featured in BBC News",
-                                articles: viewModel.articlesFeaturedBySource)
+            if viewModel.loading {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle())
+            } else {
+                List {
+                    if viewModel.allArticlesEmpty {
+                        Text("No news to show. Please try again!")
+                            .fontWeight(.medium)
+                        
+                        if !viewModel.sourcesAreEmpty {
+                            SourcesCollection(sources: viewModel.sources)
+                        }
+                    } else {
+                        if viewModel.articlesFeaturedByCountry.count > 0 {
+                            NewsRow(headerName: "Featured in USA",
+                                    articles: viewModel.articlesFeaturedByCountry)
+                        }
+                        
+                        if !viewModel.sourcesAreEmpty {
+                            SourcesCollection(sources: viewModel.sources)
+                        }
+                        
+                        if viewModel.articlesFeaturedBySource.count > 0 {
+                            NewsRow(headerName: "Featured in BBC News",
+                                    articles: viewModel.articlesFeaturedBySource)
+                        }
                     }
                 }
+                .navigationTitle("Newsyyy")
+                .listStyle(InsetListStyle())
+                .listRowInsets(EdgeInsets())
             }
-            .navigationTitle("Newsyyy")
-            .listStyle(InsetListStyle())
-            .listRowInsets(EdgeInsets())
         }
         .onAppear {
-//            viewModel.fetchArticlesBySource()
+            viewModel.loading = true
+            viewModel.fetchArticlesBySource()
 //            viewModel.fetchArticlesByCountry()
 //            viewModel.fetchSources()
         }

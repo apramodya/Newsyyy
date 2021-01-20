@@ -6,6 +6,7 @@
 //
 
 import Combine
+import SwiftUI
 
 class HomeViewModel: ObservableObject {
     @Published var articlesFeaturedByCountry: [Article] = []
@@ -13,6 +14,7 @@ class HomeViewModel: ObservableObject {
     @Published var sources: [Source] = []
     @Published var allArticlesEmpty: Bool = true
     @Published var sourcesAreEmpty: Bool = true
+    @Published var loading: Bool = false
     
     var subscriptions = Set<AnyCancellable>()
     
@@ -26,6 +28,7 @@ class HomeViewModel: ObservableObject {
                     break
                 }
             }, receiveValue: { (articles) in
+                self.loading = false
                 if let articles = articles {
                     self.allArticlesEmpty = false
                     self.articlesFeaturedByCountry = articles
@@ -45,6 +48,7 @@ class HomeViewModel: ObservableObject {
                     break
                 }
             }, receiveValue: { (articles) in
+                self.loading = false
                 if let articles = articles {
                     self.allArticlesEmpty = false
                     self.articlesFeaturedBySource = articles
@@ -64,6 +68,7 @@ class HomeViewModel: ObservableObject {
                     break
                 }
             }, receiveValue: { (sources) in
+                self.loading = false
                 if let sources = sources {
                     self.sourcesAreEmpty = false
                     let randomSources = sources.shuffled().prefix(12)
