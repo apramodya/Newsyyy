@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct HomeView: View {
+    @ObservedObject var viewModel = HomeViewModel()
+    
     var body: some View {
-        Text("Home")
-    }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView()
+        NavigationView {
+            Text(">>>")
+        }.navigationBarTitle("Articles")
+        .onAppear {
+            viewModel.fetchArticlesByCountry()
+        }
     }
 }

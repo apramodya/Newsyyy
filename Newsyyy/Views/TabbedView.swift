@@ -8,19 +8,28 @@
 import SwiftUI
 
 struct TabbedView: View {
+    @State private var selection: Tab = .home
+
+    enum Tab {
+        case home
+        case settings
+    }
+    
     var body: some View {
-        TabView {
+        TabView(selection: $selection) {
             HomeView()
                 .tabItem {
                     Image(systemName: "house.fill")
                     Text("Home")
                 }
+                .tag(Tab.home)
             
             SettingsView()
                 .tabItem {
                     Image(systemName: "gearshape.fill")
                     Text("Settings")
                 }
+                .tag(Tab.settings)
         }
     }
 }
