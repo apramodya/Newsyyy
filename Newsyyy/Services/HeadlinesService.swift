@@ -25,4 +25,16 @@ extension HeadlinesService {
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
     }
+    
+    func fetchHeadlines(bySources sources: String) -> AnyPublisher<[Article]?, Error> {
+        let urlRequest = EndPoints.TopHeadlinesBySource(sources: sources).urlRequest()
+        
+        return URLSession.shared
+            .dataTaskPublisher(for: urlRequest)
+            .map(\.data)
+            .decode(type: Response.self, decoder: JSONDecoder())
+            .map(\.articles)
+            .receive(on: DispatchQueue.main)
+            .eraseToAnyPublisher()
+    }
 }

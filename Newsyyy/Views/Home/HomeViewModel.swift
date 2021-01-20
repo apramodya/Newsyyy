@@ -8,7 +8,8 @@
 import Combine
 
 class HomeViewModel: ObservableObject {
-    @Published var articles: [Article] = []
+    @Published var articlesFeaturedByCountry: [Article] = []
+    @Published var articlesFeaturedBySource: [Article] = []
     
     var subscriptions = Set<AnyCancellable>()
     
@@ -23,7 +24,25 @@ class HomeViewModel: ObservableObject {
                 }
             }, receiveValue: { (articles) in
                 if let articles = articles {
-                    self.articles = articles
+                    self.articlesFeaturedByCountry = articles
+                        .filter({!$0.authorLabel.hasPrefix("http")})
+                }
+            })
+            .store(in: &subscriptions)
+    }
+    
+    func fetchArticlesBySource() {
+        HeadlinesService.shared.fetchHeadlines(bySources: "bbc-news")
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .failure(let error):
+                    print(error)
+                case .finished:
+                    break
+                }
+            }, receiveValue: { (articles) in
+                if let articles = articles {
+                    self.articlesFeaturedBySource = articles
                         .filter({!$0.authorLabel.hasPrefix("http")})
                 }
             })

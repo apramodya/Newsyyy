@@ -13,13 +13,18 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             List {
-                NewsRow(headerName: "Featured in USA", articles: viewModel.articles)
+                NewsRow(headerName: "Featured in USA",
+                        articles: viewModel.articlesFeaturedByCountry)
+                
+                NewsRow(headerName: "Featured in BBC News",
+                        articles: viewModel.articlesFeaturedBySource)
             }
             .navigationTitle("Newsyyy")
             .listStyle(InsetListStyle())
             .listRowInsets(EdgeInsets())
         }
         .onAppear {
+            viewModel.fetchArticlesBySource()
             viewModel.fetchArticlesByCountry()
         }
         .edgesIgnoringSafeArea(.all)
