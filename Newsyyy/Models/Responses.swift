@@ -7,8 +7,13 @@
 
 import Foundation
 
-struct Response: Decodable {
+struct ArticlesResponse: Decodable {
     var status: String?
     var totalResults: Int?
     var articles: [Article]?
+}
+
+struct SourcesResponse: Decodable {
+    var status: String?
+    var sources: [Source]?
 }

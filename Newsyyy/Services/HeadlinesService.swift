@@ -20,7 +20,7 @@ extension HeadlinesService {
         return URLSession.shared
             .dataTaskPublisher(for: urlRequest)
             .map(\.data)
-            .decode(type: Response.self, decoder: JSONDecoder())
+            .decode(type: ArticlesResponse.self, decoder: JSONDecoder())
             .map(\.articles)
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
@@ -32,7 +32,7 @@ extension HeadlinesService {
         return URLSession.shared
             .dataTaskPublisher(for: urlRequest)
             .map(\.data)
-            .decode(type: Response.self, decoder: JSONDecoder())
+            .decode(type: ArticlesResponse.self, decoder: JSONDecoder())
             .map(\.articles)
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
