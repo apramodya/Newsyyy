@@ -10,6 +10,7 @@ import Combine
 class HomeViewModel: ObservableObject {
     @Published var articlesFeaturedByCountry: [Article] = []
     @Published var articlesFeaturedBySource: [Article] = []
+    @Published var sources: [Source] = []
     
     var subscriptions = Set<AnyCancellable>()
     
@@ -47,5 +48,24 @@ class HomeViewModel: ObservableObject {
                 }
             })
             .store(in: &subscriptions)
+    }
+    
+    func fetchSources() {
+        SourcesService.shared.fetchSources(byCountry: "us")
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .failure(let error):
+                    print(error)
+                case .finished:
+                    break
+                }
+            }, receiveValue: { (sources) in
+                if let sources = sources {
+                    let randomSources = sources.shuffled().prefix(12)
+                    self.sources = Array(randomSources)
+                }
+            })
+            .store(in: &subscriptions)
+            
     }
 }

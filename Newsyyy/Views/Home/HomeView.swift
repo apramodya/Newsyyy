@@ -16,9 +16,12 @@ struct HomeView: View {
                 NewsRow(headerName: "Featured in USA",
                         articles: viewModel.articlesFeaturedByCountry)
                 
+                SourcesCollection(sources: viewModel.sources)
+                
                 NewsRow(headerName: "Featured in BBC News",
                         articles: viewModel.articlesFeaturedBySource)
             }
+            .border(Color.black, width: 2)
             .navigationTitle("Newsyyy")
             .listStyle(InsetListStyle())
             .listRowInsets(EdgeInsets())
@@ -26,6 +29,7 @@ struct HomeView: View {
         .onAppear {
             viewModel.fetchArticlesBySource()
             viewModel.fetchArticlesByCountry()
+            viewModel.fetchSources()
         }
         .edgesIgnoringSafeArea(.all)
     }
