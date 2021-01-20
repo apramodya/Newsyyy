@@ -23,8 +23,8 @@ class HomeViewModel: ObservableObject {
                 }
             }, receiveValue: { (articles) in
                 if let articles = articles {
-                    print(articles)
                     self.articles = articles
+                        .filter({!$0.authorLabel.hasPrefix("http")})
                 }
             })
             .store(in: &subscriptions)

@@ -15,7 +15,7 @@ enum EndPoints {
 
 extension EndPoints {
     private func url() -> URL {
-        let baseUrl: String = "\(Constants.BaseURL.DEV.rawValue)/top-headlines?"
+        let baseUrl: String = "\(Constants.BaseURL.DEV.rawValue)/top-headlines?pageSize=10&"
         
         switch self {
         case .TopHeadlinesByCategory(let category, let country):

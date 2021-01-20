@@ -43,6 +43,9 @@ struct RemoteImage: View {
     var body: some View {
         selectImage()
             .resizable()
+            .scaledToFill()
+            .clipped()
+            .listRowInsets(EdgeInsets())
     }
 
     init(url: String,

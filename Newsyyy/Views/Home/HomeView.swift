@@ -12,10 +12,16 @@ struct HomeView: View {
     
     var body: some View {
         NavigationView {
-            Text(">>>")
-        }.navigationBarTitle("Articles")
+            List {
+                NewsRow(headerName: "Featured in USA", articles: viewModel.articles)
+            }
+            .navigationTitle("Newsyyy")
+            .listStyle(InsetListStyle())
+            .listRowInsets(EdgeInsets())
+        }
         .onAppear {
             viewModel.fetchArticlesByCountry()
         }
+        .edgesIgnoringSafeArea(.all)
     }
 }

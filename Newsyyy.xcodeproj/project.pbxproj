@@ -61,9 +61,8 @@
 			isa = PBXGroup;
 			children = (
 				3269CB8825B74E0100E8E37F /* TabbedView.swift */,
-				32BD748E25B74AA80011E7C7 /* HomeView.swift */,
-				329714AA25B86AB1000107F5 /* HomeViewModel.swift */,
-				3269CB8C25B74F1B00E8E37F /* SettingsView.swift */,
+				329714B925B88B91000107F5 /* Home */,
+				329714BB25B88B9A000107F5 /* Settings */,
 				329714B025B8734B000107F5 /* News */,
 			);
 			path = Views;
@@ -84,7 +83,6 @@
 			children = (
 				3297149D25B85810000107F5 /* HeadlinesService.swift */,
 				329714A325B858E4000107F5 /* EndPoints.swift */,
-				329714B225B873D7000107F5 /* RemoteImage.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -96,6 +94,31 @@
 				329714AD25B871E4000107F5 /* NewsItem.swift */,
 			);
 			path = News;
+			sourceTree = "<group>";
+		};
+		329714B925B88B91000107F5 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				32BD748E25B74AA80011E7C7 /* HomeView.swift */,
+				329714AA25B86AB1000107F5 /* HomeViewModel.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		329714BB25B88B9A000107F5 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				3269CB8C25B74F1B00E8E37F /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		329714BD25B88BB6000107F5 /* Custom Views */ = {
+			isa = PBXGroup;
+			children = (
+				329714B225B873D7000107F5 /* RemoteImage.swift */,
+			);
+			path = "Custom Views";
 			sourceTree = "<group>";
 		};
 		32BD748025B74AA70011E7C7 = {
@@ -118,6 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				3269CB8525B74DA000E8E37F /* Views */,
+				329714BD25B88BB6000107F5 /* Custom Views */,
 				3297149325B8562F000107F5 /* Models */,
 				329714A025B85813000107F5 /* Services */,
 				32BD748C25B74AA80011E7C7 /* NewsyyyApp.swift */,

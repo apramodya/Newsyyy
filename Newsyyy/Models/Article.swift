@@ -22,6 +22,32 @@ struct Article: Codable, Identifiable {
         case articleDescription = "description"
         case url, urlToImage, publishedAt, content
     }
+    
+    var authorLabel: String {
+        guard let author = author, author.count > 0 else {
+            return "N/A"
+        }
+        
+        return author
+    }
+    
+    var publishedDateTime: String {
+        guard let publishedAt = publishedAt else {
+            return "N/A"
+        }
+        
+        let dateFormatterGet = DateFormatter()
+        dateFormatterGet.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+
+        let dateFormatterPrint = DateFormatter()
+        dateFormatterPrint.dateFormat = "yyyy MMM d, h:mm a"
+
+        if let date = dateFormatterGet.date(from: publishedAt) {
+            return dateFormatterPrint.string(from: date)
+        } else {
+           return "N/A"
+        }
+    }
 }
 
 extension Article {

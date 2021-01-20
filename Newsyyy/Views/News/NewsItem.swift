@@ -15,11 +15,12 @@ struct NewsItem: View {
             Text(article.title ?? "N/A")
                 .font(.title3)
                 .bold()
+                .lineLimit(3)
             
             HStack(alignment: .center) {
                 if let url = article.urlToImage {
                     RemoteImage(url: url)
-                        .frame(width: 155, height: 155)
+                        .frame(width: 100, height: 100)
                         .cornerRadius(5)
                 } else {
                     Image(systemName: "photo")
@@ -27,13 +28,14 @@ struct NewsItem: View {
                 
                 VStack(alignment: .leading, spacing: 8, content: {
                     Text("Published by: ").bold()
-                    Text("\(article.author ?? "N/A")")
+                    Text(article.authorLabel)
                     Text("Published on: ").bold()
-                    Text("2020 Jan 20, 10:30 am")
+                    Text(article.publishedDateTime)
                 })
             }
         }.padding(10)
-        .border(Color.black, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
+        .border(Color.black, width: 1)
+        .frame(width: UIScreen.main.bounds.width - 50)
     }
 }
 
