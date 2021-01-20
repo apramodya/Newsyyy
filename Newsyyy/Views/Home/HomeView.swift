@@ -13,23 +13,37 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             List {
-                NewsRow(headerName: "Featured in USA",
-                        articles: viewModel.articlesFeaturedByCountry)
-                
-                SourcesCollection(sources: viewModel.sources)
-                
-                NewsRow(headerName: "Featured in BBC News",
-                        articles: viewModel.articlesFeaturedBySource)
+                if viewModel.allArticlesEmpty {
+                    Text("No news to show. Please try again!")
+                        .fontWeight(.medium)
+                    
+                    if !viewModel.sourcesAreEmpty {
+                        SourcesCollection(sources: viewModel.sources)
+                    }
+                } else {
+                    if viewModel.articlesFeaturedByCountry.count > 0 {
+                        NewsRow(headerName: "Featured in USA",
+                                articles: viewModel.articlesFeaturedByCountry)
+                    }
+                    
+                    if !viewModel.sourcesAreEmpty {
+                        SourcesCollection(sources: viewModel.sources)
+                    }
+                    
+                    if viewModel.articlesFeaturedBySource.count > 0 {
+                        NewsRow(headerName: "Featured in BBC News",
+                                articles: viewModel.articlesFeaturedBySource)
+                    }
+                }
             }
-            .border(Color.black, width: 2)
             .navigationTitle("Newsyyy")
             .listStyle(InsetListStyle())
             .listRowInsets(EdgeInsets())
         }
         .onAppear {
-            viewModel.fetchArticlesBySource()
-            viewModel.fetchArticlesByCountry()
-            viewModel.fetchSources()
+//            viewModel.fetchArticlesBySource()
+//            viewModel.fetchArticlesByCountry()
+//            viewModel.fetchSources()
         }
         .edgesIgnoringSafeArea(.all)
     }

@@ -33,7 +33,7 @@ struct SettingsView: View {
                     })
                 })
             }.navigationTitle("Settings")
-            .listStyle(SidebarListStyle())
+            .listStyle(InsetListStyle())
         }
     }
 }

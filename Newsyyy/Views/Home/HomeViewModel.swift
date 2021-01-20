@@ -11,6 +11,8 @@ class HomeViewModel: ObservableObject {
     @Published var articlesFeaturedByCountry: [Article] = []
     @Published var articlesFeaturedBySource: [Article] = []
     @Published var sources: [Source] = []
+    @Published var allArticlesEmpty: Bool = true
+    @Published var sourcesAreEmpty: Bool = true
     
     var subscriptions = Set<AnyCancellable>()
     
@@ -25,6 +27,7 @@ class HomeViewModel: ObservableObject {
                 }
             }, receiveValue: { (articles) in
                 if let articles = articles {
+                    self.allArticlesEmpty = false
                     self.articlesFeaturedByCountry = articles
                         .filter({!$0.authorLabel.hasPrefix("http")})
                 }
@@ -43,6 +46,7 @@ class HomeViewModel: ObservableObject {
                 }
             }, receiveValue: { (articles) in
                 if let articles = articles {
+                    self.allArticlesEmpty = false
                     self.articlesFeaturedBySource = articles
                         .filter({!$0.authorLabel.hasPrefix("http")})
                 }
@@ -61,6 +65,7 @@ class HomeViewModel: ObservableObject {
                 }
             }, receiveValue: { (sources) in
                 if let sources = sources {
+                    self.sourcesAreEmpty = false
                     let randomSources = sources.shuffled().prefix(12)
                     self.sources = Array(randomSources)
                 }
