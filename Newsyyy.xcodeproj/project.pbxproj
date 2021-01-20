@@ -16,6 +16,9 @@
 		329714A425B858E4000107F5 /* EndPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329714A325B858E4000107F5 /* EndPoints.swift */; };
 		329714A825B85A05000107F5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329714A725B85A05000107F5 /* Constants.swift */; };
 		329714AB25B86AB1000107F5 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329714AA25B86AB1000107F5 /* HomeViewModel.swift */; };
+		329714AE25B871E4000107F5 /* NewsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329714AD25B871E4000107F5 /* NewsItem.swift */; };
+		329714B325B873D7000107F5 /* RemoteImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329714B225B873D7000107F5 /* RemoteImage.swift */; };
+		329714B625B8791B000107F5 /* NewsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329714B525B8791B000107F5 /* NewsRow.swift */; };
 		32BD748D25B74AA80011E7C7 /* NewsyyyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BD748C25B74AA80011E7C7 /* NewsyyyApp.swift */; };
 		32BD748F25B74AA80011E7C7 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BD748E25B74AA80011E7C7 /* HomeView.swift */; };
 		32BD749125B74AA90011E7C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 32BD749025B74AA90011E7C7 /* Assets.xcassets */; };
@@ -32,6 +35,9 @@
 		329714A325B858E4000107F5 /* EndPoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoints.swift; sourceTree = "<group>"; };
 		329714A725B85A05000107F5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		329714AA25B86AB1000107F5 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		329714AD25B871E4000107F5 /* NewsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsItem.swift; sourceTree = "<group>"; };
+		329714B225B873D7000107F5 /* RemoteImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteImage.swift; sourceTree = "<group>"; };
+		329714B525B8791B000107F5 /* NewsRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsRow.swift; sourceTree = "<group>"; };
 		32BD748925B74AA80011E7C7 /* Newsyyy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Newsyyy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		32BD748C25B74AA80011E7C7 /* NewsyyyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsyyyApp.swift; sourceTree = "<group>"; };
 		32BD748E25B74AA80011E7C7 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -58,6 +64,7 @@
 				32BD748E25B74AA80011E7C7 /* HomeView.swift */,
 				329714AA25B86AB1000107F5 /* HomeViewModel.swift */,
 				3269CB8C25B74F1B00E8E37F /* SettingsView.swift */,
+				329714B025B8734B000107F5 /* News */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -77,8 +84,18 @@
 			children = (
 				3297149D25B85810000107F5 /* HeadlinesService.swift */,
 				329714A325B858E4000107F5 /* EndPoints.swift */,
+				329714B225B873D7000107F5 /* RemoteImage.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		329714B025B8734B000107F5 /* News */ = {
+			isa = PBXGroup;
+			children = (
+				329714B525B8791B000107F5 /* NewsRow.swift */,
+				329714AD25B871E4000107F5 /* NewsItem.swift */,
+			);
+			path = News;
 			sourceTree = "<group>";
 		};
 		32BD748025B74AA70011E7C7 = {
@@ -190,10 +207,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				32BD748F25B74AA80011E7C7 /* HomeView.swift in Sources */,
+				329714AE25B871E4000107F5 /* NewsItem.swift in Sources */,
 				329714AB25B86AB1000107F5 /* HomeViewModel.swift in Sources */,
 				329714A425B858E4000107F5 /* EndPoints.swift in Sources */,
 				3269CB8D25B74F1B00E8E37F /* SettingsView.swift in Sources */,
+				329714B625B8791B000107F5 /* NewsRow.swift in Sources */,
 				3297149825B856F3000107F5 /* Article.swift in Sources */,
+				329714B325B873D7000107F5 /* RemoteImage.swift in Sources */,
 				3269CB8925B74E0100E8E37F /* TabbedView.swift in Sources */,
 				329714A825B85A05000107F5 /* Constants.swift in Sources */,
 				3297149525B856CF000107F5 /* Source.swift in Sources */,

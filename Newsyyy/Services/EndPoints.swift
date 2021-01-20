@@ -14,7 +14,7 @@ enum EndPoints {
 }
 
 extension EndPoints {
-    func url() -> URL {
+    private func url() -> URL {
         let baseUrl: String = "\(Constants.BaseURL.DEV.rawValue)/top-headlines?"
         
         switch self {
@@ -28,5 +28,14 @@ extension EndPoints {
             let url = "\(baseUrl)sources=\(sources)"
             return URL(string: url)!
         }
+    }
+    
+    func urlRequest() -> URLRequest {
+        let url = self.url()
+        var urlRequest = URLRequest(url: url)
+        urlRequest.addValue(Constants.Keys.API_KEY.rawValue, forHTTPHeaderField: "X-Api-Key")
+        urlRequest.cachePolicy = .useProtocolCachePolicy
+        
+        return urlRequest
     }
 }

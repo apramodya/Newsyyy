@@ -15,9 +15,7 @@ class HeadlinesService {
 
 extension HeadlinesService {
     func fetchHeadlines(byCountry country: String) -> AnyPublisher<[Article]?, Error> {
-        let url = EndPoints.TopHeadlinesByCountry(country: country).url()
-        var urlRequest = URLRequest(url: url)
-        urlRequest.addValue(Constants.Keys.API_KEY.rawValue, forHTTPHeaderField: "X-Api-Key")
+        let urlRequest = EndPoints.TopHeadlinesByCountry(country: country).urlRequest()
         
         return URLSession.shared
             .dataTaskPublisher(for: urlRequest)
