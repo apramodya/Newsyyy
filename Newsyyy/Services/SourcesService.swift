@@ -19,7 +19,20 @@ extension SourcesService {
         
         return URLSession.shared
             .dataTaskPublisher(for: urlRequest)
-            .map(\.data)
+            .tryMap({ (data, response) -> Data in
+                guard let response = response as? HTTPURLResponse,
+                      response.statusCode == 200
+                else {
+                    do {
+                        let error = try JSONDecoder().decode(NewsAPIError.self, from: data)
+                        throw APIError.badRequest(error.message, error.code)
+                    } catch  {
+                        throw error
+                    }
+                }
+                
+                return data
+            })
             .decode(type: SourcesResponse.self, decoder: JSONDecoder())
             .map(\.sources)
             .receive(on: DispatchQueue.main)

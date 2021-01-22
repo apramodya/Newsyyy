@@ -17,3 +17,13 @@ struct SourcesResponse: Decodable {
     var status: String?
     var sources: [Source]?
 }
+
+struct NewsAPIError: Decodable {
+    var status: String
+    var code: String
+    var message: String
+}
+
+enum APIError: Error {
+    case badRequest(String, String)
+}
