@@ -15,6 +15,7 @@ class HomeViewModel: ObservableObject {
     @Published var allArticlesEmpty: Bool = true
     @Published var sourcesAreEmpty: Bool = true
     @Published var loading: Bool = false
+    @Published var errorMessage: String?
     
     private var subscriptions = Set<AnyCancellable>()
     
@@ -24,7 +25,7 @@ class HomeViewModel: ObservableObject {
                 self.loading = false
                 switch completion {
                 case .failure(let error):
-                    print(error)
+                    self.errorMessage = error.localizedDescription
                 case .finished:
                     break
                 }
@@ -44,7 +45,7 @@ class HomeViewModel: ObservableObject {
                 self.loading = false
                 switch completion {
                 case .failure(let error):
-                    print(error)
+                    self.errorMessage = error.localizedDescription
                 case .finished:
                     break
                 }
@@ -67,10 +68,14 @@ class HomeViewModel: ObservableObject {
                 case .failure(let error):
                     if let error = error as? APIError {
                         switch error {
-                        case .badRequest(let message, let code):
-                            print(message)
-                            print(code)
+                        case .badRequest(let message, _):
+                            self.errorMessage = message
                         }
+                    } else if let errorResponse = error as? DecodingError {
+                        self.errorMessage = errorResponse.localizedDescription
+                    }
+                    else {
+                        self.errorMessage = error.localizedDescription
                     }
 
                 case .finished:

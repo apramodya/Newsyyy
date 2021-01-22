@@ -5,6 +5,7 @@
 //  Created by Pramodya Abeysinghe on 2021-01-19.
 //
 
+import Combine
 import SwiftUI
 
 struct HomeView: View {
@@ -48,9 +49,15 @@ struct HomeView: View {
         .onAppear {
             viewModel.loading = true
             viewModel.fetchArticlesBySource()
-//            viewModel.fetchArticlesByCountry()
-//            viewModel.fetchSources()
+            viewModel.fetchArticlesByCountry()
+            viewModel.fetchSources()
         }
+        .alert(isPresented: Binding<Bool>.constant($viewModel.errorMessage.wrappedValue != nil),
+               content: { () -> Alert in
+                return Alerts.shared.showErrorAlert(message: $viewModel.errorMessage.wrappedValue ?? "") {
+                    viewModel.errorMessage = nil
+                }
+               })
         .edgesIgnoringSafeArea(.all)
     }
 }
