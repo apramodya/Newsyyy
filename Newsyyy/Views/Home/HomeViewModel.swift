@@ -6,7 +6,6 @@
 //
 
 import Combine
-import SwiftUI
 
 class HomeViewModel: BaseViewModel, ObservableObject {
     @Published var articlesFeaturedByCountry: [Article] = []

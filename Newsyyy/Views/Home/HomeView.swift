@@ -47,10 +47,10 @@ struct HomeView: View {
             }
         }
         .onAppear {
-            viewModel.loading = true
-            viewModel.fetchArticlesBySource()
-            viewModel.fetchArticlesByCountry()
-            viewModel.fetchSources()
+//            viewModel.loading = true
+//            viewModel.fetchArticlesBySource()
+//            viewModel.fetchArticlesByCountry()
+//            viewModel.fetchSources()
         }
         .alert(isPresented: Binding<Bool>.constant($viewModel.errorMessage.wrappedValue != nil),
                content: { () -> Alert in
