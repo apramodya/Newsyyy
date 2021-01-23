@@ -16,6 +16,7 @@ struct NewsItem: View {
                 .font(.title3)
                 .bold()
                 .lineLimit(3)
+                .frame(height: 80.0)
             
             HStack(alignment: .center) {
                 if let url = article.urlToImage {
@@ -24,6 +25,8 @@ struct NewsItem: View {
                         .cornerRadius(5)
                 } else {
                     Image(systemName: "photo")
+                        .resizable()
+                        .frame(width: 100, height: 100)
                 }
                 
                 VStack(alignment: .leading, spacing: 8, content: {
@@ -33,7 +36,8 @@ struct NewsItem: View {
                     Text(article.publishedDateTime)
                 })
             }
-        }.padding(10)
+        }
+        .padding(10)
         .border(Color.black, width: 1)
         .frame(width: UIScreen.main.bounds.width - 50)
     }

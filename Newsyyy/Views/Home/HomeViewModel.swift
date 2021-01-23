@@ -8,7 +8,7 @@
 import Combine
 import SwiftUI
 
-class HomeViewModel: ObservableObject {
+class HomeViewModel: BaseViewModel, ObservableObject {
     @Published var articlesFeaturedByCountry: [Article] = []
     @Published var articlesFeaturedBySource: [Article] = []
     @Published var sources: [Source] = []
@@ -18,14 +18,17 @@ class HomeViewModel: ObservableObject {
     @Published var errorMessage: String?
     
     private var subscriptions = Set<AnyCancellable>()
-    
+}
+
+// MARK: Network requests
+extension HomeViewModel {
     func fetchArticlesByCountry() {
         HeadlinesService.shared.fetchHeadlines(byCountry: "us")
-            .sink(receiveCompletion: { completion in
+            .sink(receiveCompletion: { [self] completion in
                 self.loading = false
                 switch completion {
                 case .failure(let error):
-                    self.errorMessage = error.localizedDescription
+                    errorMessage = handleAPIError(for: error)
                 case .finished:
                     break
                 }
@@ -41,11 +44,11 @@ class HomeViewModel: ObservableObject {
     
     func fetchArticlesBySource() {
         HeadlinesService.shared.fetchHeadlines(bySources: "bbc-news")
-            .sink(receiveCompletion: { completion in
+            .sink(receiveCompletion: { [self] completion in
                 self.loading = false
                 switch completion {
                 case .failure(let error):
-                    self.errorMessage = error.localizedDescription
+                    errorMessage = handleAPIError(for: error)
                 case .finished:
                     break
                 }
@@ -61,23 +64,12 @@ class HomeViewModel: ObservableObject {
     
     func fetchSources() {
         SourcesService.shared.fetchSources(byCountry: "us")
-            .sink(receiveCompletion: { completion in
+            .sink(receiveCompletion: { [self] completion in
                 self.loading = false
                 
                 switch completion {
                 case .failure(let error):
-                    if let error = error as? APIError {
-                        switch error {
-                        case .badRequest(let message, _):
-                            self.errorMessage = message
-                        }
-                    } else if let errorResponse = error as? DecodingError {
-                        self.errorMessage = errorResponse.localizedDescription
-                    }
-                    else {
-                        self.errorMessage = error.localizedDescription
-                    }
-
+                    errorMessage = handleAPIError(for: error)
                 case .finished:
                     break
                 }

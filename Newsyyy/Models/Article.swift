@@ -24,7 +24,7 @@ struct Article: Codable, Identifiable {
     }
     
     var authorLabel: String {
-        guard let author = author, author.count > 0 else {
+        guard let author = author, author.count > 0, !author.contains("[") else {
             return "N/A"
         }
         
