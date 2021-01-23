@@ -20,15 +20,16 @@ class DataStore {
 
 // MARK: Get/Set Country
 extension DataStore {
-    func setCountry(_ country: String) {
-        userDefaults.set(country, forKey: DataStoreProperty.Country.rawValue)
+    func setCountry(_ country: Country) {
+        userDefaults.set(country.rawValue, forKey: DataStoreProperty.Country.rawValue)
     }
     
-    func getCountry() -> String {
+    func getCountry() -> Country {
         guard
-            let country = userDefaults.string(forKey: DataStoreProperty.Country.rawValue)
+            let _country = userDefaults.string(forKey: DataStoreProperty.Country.rawValue),
+            let country = Country(rawValue: _country)
         else {
-            return "N/A"
+            return .USA
         }
         
         return country

@@ -27,7 +27,7 @@ struct SettingsView: View {
                     Text("News").font(.title)
                     
                     NewsSettingsRowView(title: "Selected country",
-                                        value: viewModel.selectedCountry) {
+                                        value: viewModel.selectedCountry.rawValue) {
                         activeSheet = .Country
                     }
                     NewsSettingsRowView(title: "Selected source",
@@ -73,7 +73,10 @@ struct SettingsView: View {
             switch sheet {
             case .Source: SelectSourceView()
             case .Language: SelectLanguageView()
-            case .Country: SelectCountryView()
+            case .Country: SelectCountryView { (country) in
+                activeSheet = nil
+                viewModel.updateCountry(country)
+            }
             }
         })
     }

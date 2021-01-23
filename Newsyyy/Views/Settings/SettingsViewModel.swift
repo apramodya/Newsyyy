@@ -8,7 +8,7 @@
 import Combine
 
 class SettingsViewModel: BaseViewModel, ObservableObject {
-    @Published var selectedCountry: String = ""
+    @Published var selectedCountry: Country = .USA
     @Published var selectedSource: String = ""
     @Published var selectedLanguage: String = ""
     
@@ -21,5 +21,21 @@ extension SettingsViewModel {
         selectedCountry = dataStore.getCountry()
         selectedSource = dataStore.getSource()
         selectedLanguage = dataStore.getLanguage()
+    }
+}
+
+// MARK: Update user settings
+extension SettingsViewModel {
+    func updateCountry(_ country: Country) {
+        selectedCountry = country
+        dataStore.setCountry(country)
+    }
+    
+    func updateSource(_ source: String) {
+        dataStore.setSource(source)
+    }
+    
+    func updateLanguage(_ language: String) {
+        dataStore.setLanguage(language)
     }
 }
