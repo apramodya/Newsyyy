@@ -7,8 +7,16 @@
 
 import SwiftUI
 
+enum ActiveSheet: Identifiable {
+    case Source, Language, Country
+    
+    var id: ActiveSheet { self }
+}
+
 struct SettingsView: View {
     @ObservedObject var viewModel = SettingsViewModel()
+    
+    @State private var activeSheet: ActiveSheet?
     
     let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
     
@@ -19,12 +27,19 @@ struct SettingsView: View {
                     Text("News").font(.title)
                     
                     NewsSettingsRowView(title: "Selected country",
-                                        value: viewModel.selectedCountry)
+                                        value: viewModel.selectedCountry) {
+                        activeSheet = .Country
+                    }
                     NewsSettingsRowView(title: "Selected source",
-                                        value: viewModel.selectedSource)
+                                        value: viewModel.selectedSource) {
+                        activeSheet = .Source
+                    }
                     NewsSettingsRowView(title: "Selected language",
-                                        value: viewModel.selectedLanguage)
+                                        value: viewModel.selectedLanguage) {
+                        activeSheet = .Language
+                    }
                 })
+                .buttonStyle(PlainButtonStyle())
                 
                 VStack(alignment: .leading, spacing: 20, content: {
                     Text("About").font(.title)
@@ -37,6 +52,7 @@ struct SettingsView: View {
                         print("Terms and Conditions")
                     }.foregroundColor(.blue)
                 })
+                .buttonStyle(PlainButtonStyle())
                 
                 VStack(alignment: .leading, spacing: 20, content: {
                     Text("App").font(.title)
@@ -53,6 +69,13 @@ struct SettingsView: View {
         }.onAppear(perform: {
             viewModel.updateUserSettings()
         })
+        .sheet(item: $activeSheet, content: { sheet in
+            switch sheet {
+            case .Source: SelectSourceView()
+            case .Language: SelectLanguageView()
+            case .Country: SelectCountryView()
+            }
+        })
     }
 }
 
@@ -68,11 +91,13 @@ struct NewsSettingsRowView: View {
     var title: String
     var value: String
     var imageName: String
+    var doAction: (() -> ())
     
-    init(title: String, value: String, imageName: String = "square.and.pencil") {
+    init(title: String, value: String, imageName: String = "square.and.pencil", doAction: @escaping (() -> Void)) {
         self.title = title
         self.value = value
         self.imageName = imageName
+        self.doAction = doAction
     }
     
     var body: some View {
@@ -83,11 +108,11 @@ struct NewsSettingsRowView: View {
             Text(value)
                 .font(.callout)
             Button(action: {
+                doAction()
             }, label: {
                 Image(systemName: imageName)
             }).foregroundColor(.blue)
         })
+        .padding(.vertical, 4)
     }
-    
-    
 }
