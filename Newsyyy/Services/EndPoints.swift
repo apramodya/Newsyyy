@@ -11,7 +11,7 @@ enum EndPoints {
     case TopHeadlinesByCountry(country: String)
     case TopHeadlinesByCategory(category: String, country: String)
     case TopHeadlinesBySource(sources: String)
-    case Sources(country: String, language: String = "en")
+    case Sources(country: String, language: String)
 }
 
 extension EndPoints {

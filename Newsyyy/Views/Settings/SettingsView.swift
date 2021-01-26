@@ -7,12 +7,44 @@
 
 import SwiftUI
 
+enum ActiveSheet: Identifiable {
+    case Source, Language, Country
+    
+    var id: ActiveSheet { self }
+}
+
 struct SettingsView: View {
+    @ObservedObject var viewModel = SettingsViewModel()
+    
+    @State private var activeSheet: ActiveSheet?
+    
     let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
     
     var body: some View {
         NavigationView {
             List {
+                VStack(alignment: .leading, spacing: 20, content: {
+                    HStack(alignment: VerticalAlignment.center) {
+                        Text("News").font(.title)
+                        Spacer()
+                        Text("Select your primary News Settings").font(.caption)
+                    }
+                    
+                    NewsSettingsRowView(title: "Selected country",
+                                        value: viewModel.selectedCountry.rawValue) {
+                        activeSheet = .Country
+                    }
+                    NewsSettingsRowView(title: "Selected source",
+                                        value: viewModel.selectedSource) {
+                        activeSheet = .Source
+                    }
+                    NewsSettingsRowView(title: "Selected language",
+                                        value: viewModel.selectedLanguage.rawValue) {
+                        activeSheet = .Language
+                    }
+                })
+                .buttonStyle(PlainButtonStyle())
+                
                 VStack(alignment: .leading, spacing: 20, content: {
                     Text("About").font(.title)
                     
@@ -24,17 +56,39 @@ struct SettingsView: View {
                         print("Terms and Conditions")
                     }.foregroundColor(.blue)
                 })
+                .buttonStyle(PlainButtonStyle())
                 
                 VStack(alignment: .leading, spacing: 20, content: {
                     Text("App").font(.title)
+                    
                     HStack(alignment: .center, spacing: 0, content: {
-                        Text("v").bold()
+                        Text("Version ")
+                            .font(.headline)
                         Text(appVersion ?? "N/A")
                     })
                 })
-            }.navigationTitle("Settings")
+            }
+            .navigationTitle("Settings")
             .listStyle(InsetListStyle())
-        }
+        }.onAppear(perform: {
+            viewModel.updateUserSettings()
+        })
+        .sheet(item: $activeSheet, content: { sheet in
+            switch sheet {
+            case .Source: SelectSourceView { sourceName, sourceId in
+                activeSheet = nil
+                viewModel.updateSource(sourceName, sourceId)
+            }
+            case .Language: SelectLanguageView { language in
+                activeSheet = nil
+                viewModel.updateLanguage(language)
+            }
+            case .Country: SelectCountryView { (country) in
+                activeSheet = nil
+                viewModel.updateCountry(country)
+            }
+            }
+        })
     }
 }
 
@@ -43,5 +97,35 @@ struct SettingsView_Previews: PreviewProvider {
         Group {
             SettingsView()
         }
+    }
+}
+
+struct NewsSettingsRowView: View {
+    var title: String
+    var value: String
+    var imageName: String
+    var doAction: (() -> ())
+    
+    init(title: String, value: String, imageName: String = "square.and.pencil", doAction: @escaping (() -> Void)) {
+        self.title = title
+        self.value = value
+        self.imageName = imageName
+        self.doAction = doAction
+    }
+    
+    var body: some View {
+        HStack(alignment: .center, spacing: nil, content: {
+            Text(title)
+                .font(.headline)
+            Spacer()
+            Text(value)
+                .font(.callout)
+            Button(action: {
+                doAction()
+            }, label: {
+                Image(systemName: imageName)
+            }).foregroundColor(.blue)
+        })
+        .padding(.vertical, 4)
     }
 }

@@ -27,7 +27,7 @@ struct HomeView: View {
                         }
                     } else {
                         if viewModel.articlesFeaturedByCountry.count > 0 {
-                            NewsRow(headerName: "Featured in USA",
+                            NewsRow(headerName: "Featured in \(viewModel.dataStore.getCountry().rawValue)",
                                     articles: viewModel.articlesFeaturedByCountry)
                         }
                         
@@ -36,7 +36,10 @@ struct HomeView: View {
                         }
                         
                         if viewModel.articlesFeaturedBySource.count > 0 {
-                            NewsRow(headerName: "Featured in BBC News",
+                            NewsRow(headerName: "Featured in \(viewModel.dataStore.getSourceName())",
+                                    articles: viewModel.articlesFeaturedBySource)
+                        } else {
+                            NewsRow(headerName: "To see News from your primary source, set your primary News Source from Settings page",
                                     articles: viewModel.articlesFeaturedBySource)
                         }
                     }

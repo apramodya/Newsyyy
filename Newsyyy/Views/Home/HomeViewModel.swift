@@ -6,7 +6,6 @@
 //
 
 import Combine
-import SwiftUI
 
 class HomeViewModel: BaseViewModel, ObservableObject {
     @Published var articlesFeaturedByCountry: [Article] = []
@@ -17,13 +16,15 @@ class HomeViewModel: BaseViewModel, ObservableObject {
     @Published var loading: Bool = false
     @Published var errorMessage: String?
     
+    var dataStore = DataStore.shared
     private var subscriptions = Set<AnyCancellable>()
 }
 
 // MARK: Network requests
 extension HomeViewModel {
     func fetchArticlesByCountry() {
-        HeadlinesService.shared.fetchHeadlines(byCountry: "us")
+        let countryCode = dataStore.getCountry().code
+        HeadlinesService.shared.fetchHeadlines(byCountry: countryCode)
             .sink(receiveCompletion: { [self] completion in
                 self.loading = false
                 switch completion {
@@ -43,7 +44,9 @@ extension HomeViewModel {
     }
     
     func fetchArticlesBySource() {
-        HeadlinesService.shared.fetchHeadlines(bySources: "bbc-news")
+        let sourceCode = dataStore.getSourceCode()
+        
+        HeadlinesService.shared.fetchHeadlines(bySources: sourceCode)
             .sink(receiveCompletion: { [self] completion in
                 self.loading = false
                 switch completion {
@@ -63,7 +66,10 @@ extension HomeViewModel {
     }
     
     func fetchSources() {
-        SourcesService.shared.fetchSources(byCountry: "us")
+        let countryCode = dataStore.getCountry().code
+        let languageCode = dataStore.getLanguage().code
+        
+        SourcesService.shared.fetchSources(byCountry: countryCode, language: languageCode)
             .sink(receiveCompletion: { [self] completion in
                 self.loading = false
                 
