@@ -36,7 +36,7 @@ struct HomeView: View {
                         }
                         
                         if viewModel.articlesFeaturedBySource.count > 0 {
-                            NewsRow(headerName: "Featured in \(viewModel.dataStore.getSource())",
+                            NewsRow(headerName: "Featured in \(viewModel.dataStore.getSourceName())",
                                     articles: viewModel.articlesFeaturedBySource)
                         }
                     }

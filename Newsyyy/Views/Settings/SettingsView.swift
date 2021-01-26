@@ -75,9 +75,9 @@ struct SettingsView: View {
         })
         .sheet(item: $activeSheet, content: { sheet in
             switch sheet {
-            case .Source: SelectSourceView { source in
+            case .Source: SelectSourceView { sourceName, sourceId in
                 activeSheet = nil
-                viewModel.updateSource(source)
+                viewModel.updateSource(sourceName, sourceId)
             }
             case .Language: SelectLanguageView { language in
                 activeSheet = nil

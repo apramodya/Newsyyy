@@ -44,7 +44,7 @@ extension HomeViewModel {
     }
     
     func fetchArticlesBySource() {
-        let sourceCode = dataStore.getSource()
+        let sourceCode = dataStore.getSourceCode()
         
         HeadlinesService.shared.fetchHeadlines(bySources: sourceCode)
             .sink(receiveCompletion: { [self] completion in

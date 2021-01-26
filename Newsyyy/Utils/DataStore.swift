@@ -15,6 +15,7 @@ class DataStore {
         case Country
         case Language
         case Source
+        case SourceCode
     }
 }
 
@@ -38,13 +39,27 @@ extension DataStore {
 
 // MARK: Get/Set Source
 extension DataStore {
-    func setSource(_ source: String) {
+    func setSourceName(_ source: String) {
         userDefaults.set(source, forKey: DataStoreProperty.Source.rawValue)
     }
     
-    func getSource() -> String {
+    func setSourceCode(_ source: String) {
+        userDefaults.set(source, forKey: DataStoreProperty.SourceCode.rawValue)
+    }
+    
+    func getSourceName() -> String {
         guard
             let source = userDefaults.string(forKey: DataStoreProperty.Source.rawValue)
+        else {
+            return ""
+        }
+        
+        return source
+    }
+    
+    func getSourceCode() -> String {
+        guard
+            let source = userDefaults.string(forKey: DataStoreProperty.SourceCode.rawValue)
         else {
             return ""
         }

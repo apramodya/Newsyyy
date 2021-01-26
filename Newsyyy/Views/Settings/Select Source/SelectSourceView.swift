@@ -10,10 +10,11 @@ import SwiftUI
 struct SelectSourceView: View {
     @ObservedObject var viewModel = SelectSourceViewModel()
     @State private var selectedSource: String?
+    @State private var selectedSourceId: String?
     
-    var onSelection: ((String) -> ())
+    var onSelection: ((String, String) -> ())
     
-    init(onSelection: @escaping ((String) -> ())) {
+    init(onSelection: @escaping ((String, String) -> ())) {
         self.onSelection = onSelection
     }
     
@@ -31,12 +32,12 @@ struct SelectSourceView: View {
                         ForEach(viewModel.sources,
                                 id: \.self) { source in
                             Button {
-                                onSelection(source.id ?? "N/A")
+                                onSelection(source.name ?? "N/A", source.id ?? "")
                             } label: {
                                 HStack {
                                     Text(source.name ?? "N/A")
                                     Spacer()
-                                    if source.id == viewModel.selectedSource {
+                                    if source.name == viewModel.selectedSource {
                                         Image(systemName: "checkmark")
                                             .foregroundColor(.blue)
                                     }
@@ -64,7 +65,7 @@ struct SelectSourceView: View {
         .onAppear(perform: {
             viewModel.loading = true
             viewModel.fetchSources()
-            viewModel.selectedSource = viewModel.dataStore.getSource()
+            viewModel.selectedSource = viewModel.dataStore.getSourceName()
         })
     }
 }
