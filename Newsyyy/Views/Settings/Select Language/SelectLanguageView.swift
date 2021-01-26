@@ -26,6 +26,7 @@ enum Language: String, CaseIterable, Identifiable {
 }
 
 struct SelectLanguageView: View {
+    @ObservedObject var viewModel = SelectLanguageViewModel()
     @State private var selectedLanguage: String?
     
     var onSelection: ((Language) -> ())
@@ -42,12 +43,22 @@ struct SelectLanguageView: View {
                     Button {
                         onSelection(language)
                     } label: {
-                        Text(language.rawValue)
+                        HStack {
+                            Text(language.rawValue)
+                            Spacer()
+                            if language == viewModel.selectedLanguage {
+                                Image(systemName: "checkmark")
+                                    .foregroundColor(.blue)
+                            }
+                        }
                     }
                     .buttonStyle(PlainButtonStyle())
                 }
             }
             .navigationTitle("Languages")
+        }
+        .onAppear {
+            viewModel.selectedLanguage = viewModel.dataStore.getLanguage()
         }
     }
 }

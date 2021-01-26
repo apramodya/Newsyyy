@@ -12,15 +12,17 @@ class SelectSourceViewModel: BaseViewModel, ObservableObject {
     @Published var sourcesAreEmpty: Bool = true
     @Published var loading: Bool = false
     @Published var errorMessage: String?
+    @Published var selectedSource: String?
     
+    let dataStore = DataStore.shared
     private var subscriptions = Set<AnyCancellable>()
 }
 
 // MARK: Network requests
 extension SelectSourceViewModel {
     func fetchSources() {
-        let countryCode = DataStore.shared.getCountry().code
-        let languageCode = DataStore.shared.getLanguage().code
+        let countryCode = dataStore.getCountry().code
+        let languageCode = dataStore.getLanguage().code
         
         SourcesService.shared.fetchSources(byCountry: countryCode, language: languageCode)
             .sink(receiveCompletion: { [self] completion in

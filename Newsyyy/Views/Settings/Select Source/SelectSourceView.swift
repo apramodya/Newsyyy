@@ -33,18 +33,38 @@ struct SelectSourceView: View {
                             Button {
                                 onSelection(source.name ?? "N/A")
                             } label: {
-                                Text(source.name ?? "N/A")
+                                HStack {
+                                    Text(source.name ?? "N/A")
+                                    Spacer()
+                                    if source.name == viewModel.selectedSource {
+                                        Image(systemName: "checkmark")
+                                            .foregroundColor(.blue)
+                                    }
+                                }
                             }
                             .buttonStyle(PlainButtonStyle())
                         }
                     }
                     .navigationTitle("Sources")
+                    .navigationBarItems(trailing: VStack(alignment: .leading, spacing: nil, content: {
+                        HStack(alignment: .center) {
+                            Text("Country: ")
+                            Spacer()
+                            Text(viewModel.dataStore.getCountry().rawValue)
+                        }
+                        HStack(alignment: .center) {
+                            Text("Language: ")
+                            Spacer()
+                            Text(viewModel.dataStore.getLanguage().rawValue)
+                        }
+                    }))
                 }
             }
         }
         .onAppear(perform: {
             viewModel.loading = true
             viewModel.fetchSources()
+            viewModel.selectedSource = viewModel.dataStore.getSource()
         })
     }
 }

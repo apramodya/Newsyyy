@@ -8,9 +8,9 @@
 import SwiftUI
 
 enum Country: String, CaseIterable, Identifiable {
-    case Britain = "Great Britain"
     case Canada
     case France
+    case GreatBritain = "Great Britain"
     case Russia
     case USA
     
@@ -18,9 +18,9 @@ enum Country: String, CaseIterable, Identifiable {
     
     var code: String {
         switch self {
-        case .Britain: return "gb"
         case .Canada: return "ca"
         case .France: return "fr"
+        case .GreatBritain: return "gb"
         case .Russia: return "ru"
         case .USA: return "us"
         }
@@ -28,6 +28,7 @@ enum Country: String, CaseIterable, Identifiable {
 }
 
 struct SelectCountryView: View {
+    @ObservedObject var viewModel = SelectCountryViewModel()
     @State private var selectedCountry: String?
     
     var onSelection: ((Country) -> ())
@@ -44,12 +45,22 @@ struct SelectCountryView: View {
                     Button {
                         onSelection(country)
                     } label: {
-                        Text(country.rawValue)
+                        HStack {
+                            Text(country.rawValue)
+                            Spacer()
+                            if country == viewModel.selectedCountry {
+                                Image(systemName: "checkmark")
+                                    .foregroundColor(.blue)
+                            }
+                        }
                     }
                     .buttonStyle(PlainButtonStyle())
                 }
             }
             .navigationTitle("Countries")
+        }
+        .onAppear {
+            viewModel.selectedCountry = viewModel.dataStore.getCountry()
         }
     }
 }

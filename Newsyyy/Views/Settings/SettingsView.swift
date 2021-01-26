@@ -24,7 +24,11 @@ struct SettingsView: View {
         NavigationView {
             List {
                 VStack(alignment: .leading, spacing: 20, content: {
-                    Text("News").font(.title)
+                    HStack(alignment: VerticalAlignment.center) {
+                        Text("News").font(.title)
+                        Spacer()
+                        Text("Select your primary News Settings").font(.caption)
+                    }
                     
                     NewsSettingsRowView(title: "Selected country",
                                         value: viewModel.selectedCountry.rawValue) {
