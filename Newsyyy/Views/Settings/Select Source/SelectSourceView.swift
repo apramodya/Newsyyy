@@ -31,12 +31,12 @@ struct SelectSourceView: View {
                         ForEach(viewModel.sources,
                                 id: \.self) { source in
                             Button {
-                                onSelection(source.name ?? "N/A")
+                                onSelection(source.id ?? "N/A")
                             } label: {
                                 HStack {
                                     Text(source.name ?? "N/A")
                                     Spacer()
-                                    if source.name == viewModel.selectedSource {
+                                    if source.id == viewModel.selectedSource {
                                         Image(systemName: "checkmark")
                                             .foregroundColor(.blue)
                                     }

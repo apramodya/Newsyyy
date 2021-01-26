@@ -46,7 +46,7 @@ extension DataStore {
         guard
             let source = userDefaults.string(forKey: DataStoreProperty.Source.rawValue)
         else {
-            return "N/A"
+            return ""
         }
         
         return source

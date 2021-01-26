@@ -27,7 +27,7 @@ struct HomeView: View {
                         }
                     } else {
                         if viewModel.articlesFeaturedByCountry.count > 0 {
-                            NewsRow(headerName: "Featured in USA",
+                            NewsRow(headerName: "Featured in \(viewModel.dataStore.getCountry().rawValue)",
                                     articles: viewModel.articlesFeaturedByCountry)
                         }
                         
@@ -36,7 +36,7 @@ struct HomeView: View {
                         }
                         
                         if viewModel.articlesFeaturedBySource.count > 0 {
-                            NewsRow(headerName: "Featured in BBC News",
+                            NewsRow(headerName: "Featured in \(viewModel.dataStore.getSource())",
                                     articles: viewModel.articlesFeaturedBySource)
                         }
                     }
@@ -47,10 +47,10 @@ struct HomeView: View {
             }
         }
         .onAppear {
-//            viewModel.loading = true
-//            viewModel.fetchArticlesBySource()
-//            viewModel.fetchArticlesByCountry()
-//            viewModel.fetchSources()
+            viewModel.loading = true
+            viewModel.fetchArticlesBySource()
+            viewModel.fetchArticlesByCountry()
+            viewModel.fetchSources()
         }
         .alert(isPresented: Binding<Bool>.constant($viewModel.errorMessage.wrappedValue != nil),
                content: { () -> Alert in

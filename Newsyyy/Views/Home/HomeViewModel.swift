@@ -16,13 +16,15 @@ class HomeViewModel: BaseViewModel, ObservableObject {
     @Published var loading: Bool = false
     @Published var errorMessage: String?
     
+    var dataStore = DataStore.shared
     private var subscriptions = Set<AnyCancellable>()
 }
 
 // MARK: Network requests
 extension HomeViewModel {
     func fetchArticlesByCountry() {
-        HeadlinesService.shared.fetchHeadlines(byCountry: "us")
+        let countryCode = dataStore.getCountry().code
+        HeadlinesService.shared.fetchHeadlines(byCountry: countryCode)
             .sink(receiveCompletion: { [self] completion in
                 self.loading = false
                 switch completion {
@@ -42,7 +44,9 @@ extension HomeViewModel {
     }
     
     func fetchArticlesBySource() {
-        HeadlinesService.shared.fetchHeadlines(bySources: "bbc-news")
+        let sourceCode = dataStore.getSource()
+        
+        HeadlinesService.shared.fetchHeadlines(bySources: sourceCode)
             .sink(receiveCompletion: { [self] completion in
                 self.loading = false
                 switch completion {
@@ -62,8 +66,8 @@ extension HomeViewModel {
     }
     
     func fetchSources() {
-        let countryCode = DataStore.shared.getCountry().code
-        let languageCode = DataStore.shared.getLanguage().code
+        let countryCode = dataStore.getCountry().code
+        let languageCode = dataStore.getLanguage().code
         
         SourcesService.shared.fetchSources(byCountry: countryCode, language: languageCode)
             .sink(receiveCompletion: { [self] completion in
