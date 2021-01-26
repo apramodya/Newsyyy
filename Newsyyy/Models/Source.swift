@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Source: Codable, Identifiable {
+struct Source: Codable, Identifiable, Hashable {
     var id, name, sourceDescription: String?
     var url: String?
     var category, language, country: String?

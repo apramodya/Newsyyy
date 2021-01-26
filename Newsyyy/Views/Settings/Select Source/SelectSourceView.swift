@@ -8,13 +8,43 @@
 import SwiftUI
 
 struct SelectSourceView: View {
-    var body: some View {
-        Text("Select source")
+    @ObservedObject var viewModel = SelectSourceViewModel()
+    @State private var selectedSource: String?
+    
+    var onSelection: ((String) -> ())
+    
+    init(onSelection: @escaping ((String) -> ())) {
+        self.onSelection = onSelection
     }
-}
-
-struct SelectSourceView_Previews: PreviewProvider {
-    static var previews: some View {
-        SelectSourceView()
+    
+    var body: some View {
+        NavigationView {
+            if viewModel.loading {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle())
+            } else {
+                if viewModel.sources.isEmpty {
+                    Text("No sources to show. \nPlease try with another language or country.")
+                        .multilineTextAlignment(.center)
+                } else {
+                    List(selection: $selectedSource) {
+                        ForEach(viewModel.sources,
+                                id: \.self) { source in
+                            Button {
+                                onSelection(source.name ?? "N/A")
+                            } label: {
+                                Text(source.name ?? "N/A")
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                        }
+                    }
+                }
+            }
+        }
+        .onAppear(perform: {
+            viewModel.loading = true
+            viewModel.fetchSources()
+        })
+        .navigationTitle("Sources")
     }
 }

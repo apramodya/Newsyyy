@@ -32,10 +32,12 @@ extension SettingsViewModel {
     }
     
     func updateSource(_ source: String) {
+        selectedSource = source
         dataStore.setSource(source)
     }
     
     func updateLanguage(_ language: String) {
+        selectedLanguage = language
         dataStore.setLanguage(language)
     }
 }
