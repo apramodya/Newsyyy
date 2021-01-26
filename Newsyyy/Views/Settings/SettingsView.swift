@@ -35,7 +35,7 @@ struct SettingsView: View {
                         activeSheet = .Source
                     }
                     NewsSettingsRowView(title: "Selected language",
-                                        value: viewModel.selectedLanguage) {
+                                        value: viewModel.selectedLanguage.rawValue) {
                         activeSheet = .Language
                     }
                 })
@@ -75,7 +75,10 @@ struct SettingsView: View {
                 activeSheet = nil
                 viewModel.updateSource(source)
             }
-            case .Language: SelectLanguageView()
+            case .Language: SelectLanguageView { language in
+                activeSheet = nil
+                viewModel.updateLanguage(language)
+            }
             case .Country: SelectCountryView { (country) in
                 activeSheet = nil
                 viewModel.updateCountry(country)

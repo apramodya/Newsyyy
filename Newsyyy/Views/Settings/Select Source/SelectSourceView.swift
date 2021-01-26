@@ -38,6 +38,7 @@ struct SelectSourceView: View {
                             .buttonStyle(PlainButtonStyle())
                         }
                     }
+                    .navigationTitle("Sources")
                 }
             }
         }
@@ -45,6 +46,5 @@ struct SelectSourceView: View {
             viewModel.loading = true
             viewModel.fetchSources()
         })
-        .navigationTitle("Sources")
     }
 }

@@ -62,7 +62,10 @@ extension HomeViewModel {
     }
     
     func fetchSources() {
-        SourcesService.shared.fetchSources(byCountry: "us")
+        let countryCode = DataStore.shared.getCountry().code
+        let languageCode = DataStore.shared.getLanguage().code
+        
+        SourcesService.shared.fetchSources(byCountry: countryCode, language: languageCode)
             .sink(receiveCompletion: { [self] completion in
                 self.loading = false
                 

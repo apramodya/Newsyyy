@@ -55,15 +55,16 @@ extension DataStore {
 
 // MARK: Get/Set Language
 extension DataStore {
-    func setLanguage(_ language: String) {
-        userDefaults.set(language, forKey: DataStoreProperty.Language.rawValue)
+    func setLanguage(_ language: Language) {
+        userDefaults.set(language.rawValue, forKey: DataStoreProperty.Language.rawValue)
     }
     
-    func getLanguage() -> String {
+    func getLanguage() -> Language {
         guard
-            let language = userDefaults.string(forKey: DataStoreProperty.Language.rawValue)
+            let _language = userDefaults.string(forKey: DataStoreProperty.Language.rawValue),
+            let language = Language(rawValue: _language)
         else {
-            return "N/A"
+            return .English
         }
         
         return language

@@ -14,8 +14,8 @@ class SourcesService {
 }
 
 extension SourcesService {
-    func fetchSources(byCountry country: String) -> AnyPublisher<[Source]?, Error> {
-        let urlRequest = EndPoints.Sources(country: country).urlRequest()
+    func fetchSources(byCountry country: String, language: String) -> AnyPublisher<[Source]?, Error> {
+        let urlRequest = EndPoints.Sources(country: country, language: language).urlRequest()
         
         return URLSession.shared
             .dataTaskPublisher(for: urlRequest)

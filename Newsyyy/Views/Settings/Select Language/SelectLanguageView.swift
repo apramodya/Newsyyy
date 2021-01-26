@@ -7,14 +7,47 @@
 
 import SwiftUI
 
-struct SelectLanguageView: View {
-    var body: some View {
-        Text("Select Language View")
+enum Language: String, CaseIterable, Identifiable {
+    case English
+    case Spanish
+    case French
+    case Italian
+    
+    var id: Language { self }
+    
+    var code: String {
+        switch self {
+        case .English: return "en"
+        case .Spanish: return "es"
+        case .French: return "fr"
+        case .Italian: return "it"
+        }
     }
 }
 
-struct SelectLanguageView_Previews: PreviewProvider {
-    static var previews: some View {
-        SelectLanguageView()
+struct SelectLanguageView: View {
+    @State private var selectedLanguage: String?
+    
+    var onSelection: ((Language) -> ())
+    
+    init(onSelection: @escaping ((Language) -> ())) {
+        self.onSelection = onSelection
+    }
+    
+    var body: some View {
+        NavigationView {
+            List(selection: $selectedLanguage) {
+                ForEach(Language.allCases,
+                        id: \.self) { language in
+                    Button {
+                        onSelection(language)
+                    } label: {
+                        Text(language.rawValue)
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                }
+            }
+            .navigationTitle("Languages")
+        }
     }
 }
