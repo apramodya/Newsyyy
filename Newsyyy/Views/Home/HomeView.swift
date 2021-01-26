@@ -38,6 +38,9 @@ struct HomeView: View {
                         if viewModel.articlesFeaturedBySource.count > 0 {
                             NewsRow(headerName: "Featured in \(viewModel.dataStore.getSourceName())",
                                     articles: viewModel.articlesFeaturedBySource)
+                        } else {
+                            NewsRow(headerName: "To see News from your primary source, set your primary News Source from Settings page",
+                                    articles: viewModel.articlesFeaturedBySource)
                         }
                     }
                 }
